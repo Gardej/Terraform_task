@@ -1,4 +1,4 @@
-# Description how to sen-up environment.
+# Description how to set-up environment.
 
 ### 1. Clone this repo to your local system.
 
