@@ -16,5 +16,7 @@
 #### - input values during "terraform apply"
 
 ### 6. Type "terraform apply" in directory with files.
+
+### 7. To create one more environment make steps 1-7 (except step 3) in other directory.
  
 
