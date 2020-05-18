@@ -11,7 +11,7 @@
 #### - "aws_key_for_region"  # Here indicate existing key to connect to EC2 instance
 #### - "aws_env_name"        # For example "test" or "dev" !!! lovercase only acceptable !!!
 
-### 5.There are two ways to do this:
+### 5. There are two ways to do this:
 #### - indicate default values in "variables.tf" file
 #### - input values during "terraform apply"
 
