@@ -29,6 +29,6 @@ terraform apply
 ##### `aws_env_name`        - for example `test` or `dev` (here only lovercase letters acceptable)
 ##### `external_IP`         - your external IP for example `8.8.8.8` (you can determine your external-IP with https://ping.eu)
 
-### 7. To create one more environment make steps No.1-6 in other directory.
+### 7. To create one more environment make steps 1...6 in other directory.
  
 
