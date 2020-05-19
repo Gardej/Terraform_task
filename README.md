@@ -26,8 +26,8 @@ terraform apply
 
 ##### `aws_region_name`     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - for example `us-east-2`
 ##### `aws_key_for_region`  - name of key created in region you indicated above to connect to EC2 instance
-##### `aws_env_name`        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - for example *test* or *dev* (here only lovercase letters acceptable)
-##### `external_IP`         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - your external IP for example *8.8.8.8* (you can determine your external-IP with https://ping.eu)
+##### `aws_env_name`        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - for example `test` or `dev` (here only lovercase letters acceptable)
+##### `external_IP`         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - your external IP for example `8.8.8.8` (you can determine your external-IP with https://ping.eu)
 
 ### 7. To create one more environment make steps No.1-6 in other directory.
  
