@@ -29,7 +29,7 @@ terraform apply
 ##### `aws_env_name`        - for example `test` or `dev` (here only lovercase letters acceptable)
 ##### `external_IP`         - your external IP for example `8.8.8.8` (you can determine your external-IP with https://ping.eu)
 
-### 7. To destroy environment use following command (make s3 bucket emplty before that):
+### 7. To destroy environment use following command (make s3 bucket empty before that):
 ```
 terraform destroy
 ```
