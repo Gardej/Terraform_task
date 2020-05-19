@@ -22,7 +22,7 @@ terraform init
 ```
 terraform apply
 ```
-### 6. You will be asked to input some values during the environment creation:
+### 6. You will be asked to enter some values during the environment creation:
 
 ##### `aws_region_name`     - for example `us-east-2`
 ##### `aws_key_for_region`  - name of key created in region you indicated above to connect to EC2 instance
