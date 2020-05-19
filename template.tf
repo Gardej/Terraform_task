@@ -28,10 +28,38 @@ resource "aws_s3_bucket" "my_bucket" {
 }
 
 # Lambda configuration
+resource "aws_iam_role" "full_access_role" {
+  name                = "s3-full-access-role-${var.aws_env_name}"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+data "aws_iam_policy" "full_access_policy" {
+  arn                 = "arn:aws:iam::aws:policy/AmazonS3FullAccess"   
+}
+
+resource "aws_iam_role_policy_attachment" "full_access_role_policy_attach" {
+  role               = "${aws_iam_role.full_access_role.name}"
+  policy_arn          = "${data.aws_iam_policy.full_access_policy.arn}"
+}
+
 resource "aws_lambda_function" "my_lambda" {
   filename            = "function.zip"
   function_name       = "lambda-${var.aws_env_name}"
-  role                = "arn:aws:iam::695473938047:role/S3_FullAccess_Role"
+  role                = "${aws_iam_role.full_access_role.arn}"
   handler             = "lambda.lambda_handler"
   runtime             = "python3.7"
 
@@ -79,6 +107,7 @@ resource "aws_subnet" "main" {
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
 }
+
 resource "aws_internet_gateway" "gw" {
   vpc_id                  = "${aws_vpc.default.id}"
 }
@@ -106,7 +135,7 @@ resource "aws_security_group" "allow_ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${var.external_IP}/32"]
   }
 
   egress {
@@ -129,7 +158,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_iam_role" "ec2_s3_access_role" {
-  name               = "iam-role-${var.aws_env_name}"
+  name               = "ec2_s3_access-role-${var.aws_env_name}"
   description        = "EC2 can list and get S3 objects"
 
   assume_role_policy = <<EOF

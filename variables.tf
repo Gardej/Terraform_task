@@ -12,3 +12,7 @@ variable "aws_env_name" {
   type    = string
   #default = "test"
 }
+
+variable "external_IP" {
+  type    = string
+}
