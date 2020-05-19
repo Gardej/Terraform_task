@@ -14,15 +14,15 @@ zip function.zip lambda.py
 export AWS_ACCESS_KEY_ID="XXXXXXXXXXXXXXXXXX"
 export AWS_SECRET_ACCESS_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ```
-### 4. Initialize terraform in current directory.
+### 4. Initialize terraform in current directory:
 ```
 terraform init
 ```
-### 5. Run environment:
+### 5. Create environment:
 ```
 terraform apply
 ```
-### 6. You will be asked to input some values during the installation.
+### 6. You will be asked to input some values during the env creation:
 #### `aws_region_name`     - for example "us-east-2"
 #### `aws_key_for_region`  - name of existing key to connect to EC2 instance
 #### `aws_env_name`        - for example "test" or "dev" (only lovercase letters acceptable)
