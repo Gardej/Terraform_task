@@ -4,6 +4,7 @@
 ```
 git clone https://github.com/Gardej/Terraform_task.git
 cd Terraform_task/
+git checkout first_review
 ```
 ### 2. Create zip file for lambda:
 ```
