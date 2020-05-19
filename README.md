@@ -1,7 +1,10 @@
 # Description how to set-up environment.
 
-### 1. Clone this repo to your local system.
-
+### 1. Clone this repo to your local system:
+```
+git clone https://github.com/Gardej/Terraform_task.git
+cd Terraform_task/
+```
 ### 2. Type "terraform init" in directory with files.
 
 ### 3. Export AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to environment variables.
