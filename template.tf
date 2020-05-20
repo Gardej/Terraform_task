@@ -4,7 +4,7 @@ provider "aws" {
 
 # S3 configuration
 resource "aws_s3_bucket" "my_bucket" {
-  bucket = "bucket-hardzeyeu-${var.aws_env_name}" 
+  bucket = "bucket-hardzeyeu-${terraform.workspace}"
   acl    = "private"
 
   versioning {
@@ -14,7 +14,7 @@ resource "aws_s3_bucket" "my_bucket" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm     = "aws:kms"
+        sse_algorithm = "aws:kms"
       }
     }
   }
@@ -29,7 +29,7 @@ resource "aws_s3_bucket" "my_bucket" {
 
 # Lambda configuration
 resource "aws_iam_role" "full_access_role" {
-  name                = "s3-full-access-role-${var.aws_env_name}"
+  name                = "s3-full-access-role-${terraform.workspace}"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -58,14 +58,14 @@ resource "aws_iam_role_policy_attachment" "full_access_role_policy_attach" {
 
 resource "aws_lambda_function" "my_lambda" {
   filename            = "function.zip"
-  function_name       = "lambda-${var.aws_env_name}"
+  function_name       = "lambda-${terraform.workspace}"
   role                = "${aws_iam_role.full_access_role.arn}"
   handler             = "lambda.lambda_handler"
   runtime             = "python3.7"
 
   environment {
     variables         = {
-      BACKET          = "bucket-hardzeyeu-${var.aws_env_name}"
+      BACKET          = "bucket-hardzeyeu-${terraform.workspace}"
     }
   }
 
@@ -75,7 +75,7 @@ resource "aws_lambda_function" "my_lambda" {
 }
 
 resource "aws_cloudwatch_event_rule" "every_fifteen_minutes" {
-  name                = "every_15_minutes_lambda-${var.aws_env_name}"
+  name                = "every_15_minutes_lambda-${terraform.workspace}"
   description         = "Fires every fifteen minutes"
   schedule_expression = "rate(15 minutes)"
 }
@@ -98,7 +98,7 @@ resource "aws_vpc" "default" {
   cidr_block              = "10.0.0.0/16"
 
   tags = {
-    Name = "${var.aws_env_name}"
+    Name = "${terraform.workspace}"
   }
 }
 
@@ -127,7 +127,7 @@ resource "aws_route_table_association" "rt-assoc" {
 }
 
 resource "aws_security_group" "allow_ssh" {
-  name                    = "sg_allow_ssh-${var.aws_env_name}"
+  name                    = "sg_allow_ssh-${terraform.workspace}"
   description             = "Allow ssh inbound traffic"
   vpc_id                  = "${aws_vpc.default.id}"
 
@@ -158,7 +158,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_iam_role" "ec2_s3_access_role" {
-  name               = "ec2_s3_access-role-${var.aws_env_name}"
+  name               = "ec2_s3_access-role-${terraform.workspace}"
   description        = "EC2 can list and get S3 objects"
 
   assume_role_policy = <<EOF
@@ -179,7 +179,7 @@ EOF
 }
 
 resource "aws_iam_policy" "ec2_s3_access_policy" { 
-  name               = "iam-policy-${var.aws_env_name}"
+  name               = "iam-policy-${terraform.workspace}"
   path               = "/"
   description        = "EC2 can list and get S3 objects"
 
@@ -205,19 +205,19 @@ EOF
 }
 
 resource "aws_iam_policy_attachment" "attachment" {
-  name               = "iam_policy_attachment-${var.aws_env_name}"
+  name               = "iam_policy_attachment-${terraform.workspace}"
   roles              = ["${aws_iam_role.ec2_s3_access_role.name}"]
   policy_arn         = "${aws_iam_policy.ec2_s3_access_policy.arn}"
 }
 
 resource "aws_iam_instance_profile" "profile" {
-  name               = "iam_instance_profile-${var.aws_env_name}"
+  name               = "iam_instance_profile-${terraform.workspace}"
   role               = "${aws_iam_role.ec2_s3_access_role.name}"
 }
 
 # Launch configuration and autoscaling
 resource "aws_launch_configuration" "l_conf" {
-  name                      = "ubuntu_config-${var.aws_env_name}"
+  name                      = "ubuntu_config-${terraform.workspace}"
   image_id                  = "${data.aws_ami.ubuntu.id}"
   key_name                  = "${var.aws_key_for_region}"
   security_groups           = ["${aws_security_group.allow_ssh.id}"]
@@ -229,7 +229,7 @@ resource "aws_launch_configuration" "l_conf" {
 }
 
 resource "aws_autoscaling_group" "asg" {
-  name                      = "asg-${var.aws_env_name}"
+  name                      = "asg-${terraform.workspace}"
   vpc_zone_identifier       = ["${aws_subnet.main.id}"]
   max_size                  = 3
   min_size                  = 1
@@ -243,14 +243,14 @@ resource "aws_autoscaling_group" "asg" {
   tags = [
     {
       key                   = "Name"
-      value                 = "${var.aws_env_name}"
+      value                 = "${terraform.workspace}"
       propagate_at_launch   = true
     }
   ]
 }
 
 resource "aws_autoscaling_policy" "cpu_policy" {
-  name                      = "cpu_policy-${var.aws_env_name}"
+  name                      = "cpu_policy-${terraform.workspace}"
   policy_type               = "TargetTrackingScaling"
   autoscaling_group_name    = "${aws_autoscaling_group.asg.name}"
   estimated_instance_warmup = 200
