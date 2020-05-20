@@ -19,9 +19,9 @@ export AWS_SECRET_ACCESS_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ```
 terraform init
 ```
-### 5. Create workspace:
+### 5. Create workspace (in "workspace_name" only lowercase letters acceptable):
 ```
-terraform workspace new "worksapce_name"
+terraform workspace new "workspace_name"
 ```
 ### 5.1 Useful commands to work with workspaces:
 ```
