@@ -1,5 +1,6 @@
 # Exam task solution:
-### 0. Exam_task is attached here https://github.com/Gardej/Terraform_task/blob/master/Exam_task.md.
+
+### 0. Exam_task is attached here: https://github.com/Gardej/Terraform_task/blob/master/Exam_task.md
 
 ### 1. Clone this repo to your local system:
 ```
